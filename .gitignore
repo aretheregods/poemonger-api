@@ -5,6 +5,9 @@
 *.so
 *.dylib
 
+# vscode settings
+**/.vscode
+
 # Test binary, built with `go test -c`
 *.test
 
@@ -13,3 +16,10 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# air reload related things
+.air.toml
+tmp/
+
+# vim tags file
+tags
