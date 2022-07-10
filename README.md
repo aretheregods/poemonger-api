@@ -1,2 +1,2 @@
 # poemonger
-The poem monger website/app
+The poemonger website API
