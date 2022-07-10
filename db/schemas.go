@@ -19,7 +19,14 @@ type Book struct {
 }
 
 type Reader struct {
-	Name string
+	Name      string
+	Favorites []poemReference
+	Lists     []poemList
+}
+
+type poemList struct {
+	Name  string
+	Poems []poemReference
 }
 
 type poemReference struct {
