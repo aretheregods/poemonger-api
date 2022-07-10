@@ -23,3 +23,7 @@ tmp/
 
 # vim tags file
 tags
+
+# environment files
+.env
+.env.local
