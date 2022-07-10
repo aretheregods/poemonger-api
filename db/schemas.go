@@ -5,17 +5,18 @@ import (
 )
 
 type Poetry struct {
-	ID         primitive.ObjectID
-	Title      string
-	Author     string
-	Categories []string
-	Books      []Book
+	ID          primitive.ObjectID
+	Title       string
+	Author      string
+	Categories  []string
+	Books       []Book
+	ReleaseDate primitive.DateTime
 }
 
 type Book struct {
 	Name         string
 	Poems        []poemReference
-	PreviousPoem poemReference
+	MostRecent   poemReference
 	NextPoemDate primitive.DateTime
 }
 
