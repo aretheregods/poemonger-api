@@ -13,6 +13,7 @@ type Poetry struct {
 }
 
 type Book struct {
+	Name         string
 	Poems        []poemReference
 	PreviousPoem poemReference
 	NextPoemDate primitive.DateTime
