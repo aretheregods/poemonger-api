@@ -29,3 +29,7 @@ func InitializeAPI()  {
 func (routes *APIRoutes) GetAllPoems(c *fiber.Ctx) error {
 	return nil
 }
+
+func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
+	return nil
+}
