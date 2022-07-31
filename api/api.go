@@ -22,7 +22,7 @@ func InitializeAPI()  {
 	api := &APIRoutes{ poems }
 
 	app.Get("/poetry", api.GetAllPoems)
-	app.Get("/poetry/:id", api.GetPoem)
+	app.Post("/poetry", api.PostPoem)
 
 	app.Listen(":4321")
 }
