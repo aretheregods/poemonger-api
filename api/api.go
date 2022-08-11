@@ -22,10 +22,15 @@ func InitializeAPI()  {
 	api := &APIRoutes{ poems }
 
 	app.Get("/poetry", api.GetAllPoems)
+	app.Post("/poetry", api.PostPoem)
 
 	app.Listen(":4321")
 }
 
 func (routes *APIRoutes) GetAllPoems(c *fiber.Ctx) error {
+	return nil
+}
+
+func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
 	return nil
 }
