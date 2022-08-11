@@ -9,11 +9,11 @@ type Poetry struct {
 	Title       string
 	Author      string
 	Categories  []string
-	Books       []Book
+	Collections []Collection
 	ReleaseDate primitive.DateTime
 }
 
-type Book struct {
+type Collection struct {
 	Name         string
 	Poems        []poemReference
 	MostRecent   poemReference
