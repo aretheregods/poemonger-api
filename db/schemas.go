@@ -21,12 +21,13 @@ type Collection struct {
 }
 
 type Reader struct {
-	Name      string
-	Favorites []poemReference
-	Lists     []poemList
+	Name       string
+	Favorites  []poemReference
+	Lists      []PoemList
+	MostRecent poemReference
 }
 
-type poemList struct {
+type PoemList struct {
 	Name  string
 	Poems []poemReference
 }
