@@ -16,7 +16,7 @@ func InitializeDB(dbName string) *mongo.Database {
 
 	var uri string
 	if uri = os.Getenv("MONGODB_PASSWORD"); uri == "" {
-		log.Fatal("You must set your 'MONGODB_PASSWPRD' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
+		log.Fatal("You must set your 'MONGODB_PASSWORD' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
 	}
 	mongoURL := fmt.Sprintf("mongodb+srv://aretheregods:%v@poems.o87xo5v.mongodb.net/?retryWrites=true&w=majority", uri)
 	clientOptions := options.Client().
