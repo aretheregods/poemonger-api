@@ -37,5 +37,17 @@ func (routes *APIRoutes) GetPoem(c *fiber.Ctx) error {
 }
 
 func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
-	return nil
+	p := new(db.Poetry)
+
+	if err := c.BodyParser(p); err != nil {
+		return err
+	}
+
+	coll := routes.DB.Collection("poetry")
+	_, err := coll.InsertOne(c.Context(), p)
+	if err != nil {
+		return err
+	}
+
+	return c.SendStatus(200)
 }
