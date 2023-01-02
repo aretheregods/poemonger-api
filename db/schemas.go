@@ -5,11 +5,10 @@ import (
 )
 
 type Poetry struct {
-	ID          primitive.ObjectID
 	Title       string
 	Author      string
+	Text		string
 	Categories  []string
-	Collections []Collection
 	ReleaseDate primitive.DateTime
 }
 
