@@ -11,7 +11,7 @@ type APIRoutes struct {
 	DB *mongo.Database
 }
 
-func InitializeAPI()  {
+func InitializeAPI() {
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
@@ -19,7 +19,7 @@ func InitializeAPI()  {
 	})
 
 	poems := db.InitializeDB("poems")
-	api := &APIRoutes{ poems }
+	api := &APIRoutes{poems}
 
 	app.Get("/poetry", api.GetAllPoems)
 	app.Get("/poetry/:id", api.GetPoem)
