@@ -15,7 +15,7 @@ func InitializeAPI() {
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Nothing to see here")
+		return c.SendString("Nothing to see here!")
 	})
 
 	poems := db.InitializeDB("poems")
