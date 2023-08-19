@@ -22,8 +22,10 @@ func InitializeAPI() {
 	api := &APIRoutes{poems}
 
 	app.Get("/poetry", api.GetAllPoems)
-	app.Get("/poetry/:id", api.GetPoem)
 	app.Post("/poetry", api.PostPoem)
+	app.Get("/poetry/:id", api.GetPoem)
+	app.Get("/work/:id", api.GetWork)
+	app.Post("/work", api.PostWork)
 
 	app.Listen(":4321")
 }
@@ -37,7 +39,7 @@ func (routes *APIRoutes) GetPoem(c *fiber.Ctx) error {
 }
 
 func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
-	p := new(db.Poetry)
+	p := new(db.Poem)
 
 	if err := c.BodyParser(p); err != nil {
 		return err
@@ -50,4 +52,12 @@ func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
 	}
 
 	return c.SendStatus(200)
+}
+
+func (routes *APIRoutes) GetWork(c *fiber.Ctx) error {
+	return nil
+}
+
+func (routes *APIRoutes) PostWork(c *fiber.Ctx) error {
+	return nil
 }
