@@ -4,18 +4,18 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-type Poetry struct {
+type Poem struct {
 	Title       string
 	Author      string
-	Text		string
-	Categories  []string
+	Text        []lineReference
+	Categories  []categoryReference
 	ReleaseDate primitive.DateTime
 }
 
-type Collection struct {
+type Work struct {
 	Name         string
 	Poems        []poemReference
-	MostRecent   poemReference
+	CoverPoem    poemReference
 	NextPoemDate primitive.DateTime
 }
 
@@ -32,7 +32,18 @@ type PoemList struct {
 }
 
 type poemReference struct {
-	ID          primitive.ObjectID
-	Title       string
-	ReleaseDate primitive.DateTime 
+	ID     primitive.ObjectID
+	Title  string
+	Sample []lineReference
+}
+
+type lineReference struct {
+	ID   primitive.ObjectID
+	Text string
+	Poem poemReference
+}
+
+type categoryReference struct {
+	ID   primitive.ObjectID
+	Name string
 }
