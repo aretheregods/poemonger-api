@@ -16,13 +16,17 @@ func InitializeDB(dbName string) *mongo.Database {
 
 	var password string
 	var username string
+	var location string
 	if password = os.Getenv("MONGODB_PASSWORD"); password == "" {
 		log.Fatal("You must set your 'MONGODB_PASSWORD' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
 	}
 	if username = os.Getenv("MONGODB_USERNAME"); username == "" {
 		log.Fatal("You must set your 'MONGODB_USERNAME' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
 	}
-	mongoURL := fmt.Sprintf("mongodb+srv://%v:%v@poems.o87xo5v.mongodb.net/?retryWrites=true&w=majority", username, password)
+	if location = os.Getenv("MONGODB_LOCATION"); location == "" {
+		log.Fatal("You must set your 'MONGODB_LOCATION' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
+	}
+	mongoURL := fmt.Sprintf("mongodb+srv://%v:%v@%v/?retryWrites=true&w=majority", username, password, location)
 	clientOptions := options.Client().
 		ApplyURI(mongoURL).
 		SetServerAPIOptions(serverAPIOptions)
