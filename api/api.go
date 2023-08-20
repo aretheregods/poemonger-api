@@ -21,10 +21,11 @@ func InitializeAPI() {
 	poems := db.InitializeDB("poems")
 	api := &APIRoutes{poems}
 
+	app.Get("/poetry/:id", api.GetPoem)
 	app.Get("/poetry", api.GetAllPoems)
 	app.Post("/poetry", api.PostPoem)
-	app.Get("/poetry/:id", api.GetPoem)
 	app.Get("/work/:id", api.GetWork)
+	app.Get("/work", api.GetWorks)
 	app.Post("/work", api.PostWork)
 
 	app.Listen(":4321")
@@ -52,6 +53,10 @@ func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
 	}
 
 	return c.SendStatus(200)
+}
+
+func (routes *APIRoutes) GetWorks(c *fiber.Ctx) error {
+	return nil
 }
 
 func (routes *APIRoutes) GetWork(c *fiber.Ctx) error {
