@@ -14,10 +14,6 @@ type APIRoutes struct {
 func InitializeAPI() {
 	app := fiber.New()
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Nothing to see here!")
-	})
-
 	poems := db.InitializeDB("poems")
 	api := &APIRoutes{poems}
 
@@ -27,16 +23,19 @@ func InitializeAPI() {
 	app.Get("/work/:id", api.GetWork)
 	app.Get("/work", api.GetWorks)
 	app.Post("/work", api.PostWork)
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Nothing to see here!")
+	})
 
 	app.Listen(":4321")
 }
 
 func (routes *APIRoutes) GetAllPoems(c *fiber.Ctx) error {
-	return nil
+	return c.SendString("These are a bunch of poems")
 }
 
 func (routes *APIRoutes) GetPoem(c *fiber.Ctx) error {
-	return nil
+	return c.SendString("This is a poem")
 }
 
 func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
@@ -56,13 +55,24 @@ func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
 }
 
 func (routes *APIRoutes) GetWorks(c *fiber.Ctx) error {
-	return nil
+	return c.SendString("These are collections of poems")
 }
 
 func (routes *APIRoutes) GetWork(c *fiber.Ctx) error {
-	return nil
+	return c.SendString("This is a poetry collection")
 }
 
 func (routes *APIRoutes) PostWork(c *fiber.Ctx) error {
-	return nil
+	w := new(db.Work)
+
+	if err := c.BodyParser(w); err != nil {
+		return err
+	}
+
+	coll := routes.DB.Collection("works")
+	if _, err := coll.InsertOne(c.Context(), w); err != nil {
+		return err
+	}
+
+	return c.SendStatus(200)
 }
