@@ -39,7 +39,7 @@ func InitializeDB(dbName string) *mongo.Database {
 	}
 
 	defer func() {
-		if err = client.Disconnect(context.TODO()); err != nil {
+		if err = client.Disconnect(ctx); err != nil {
 			panic(err)
 		}
 	}()
