@@ -4,10 +4,14 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type Author struct {
+	Name string
+}
+
 type Poem struct {
 	Title       string
-	Author      string
-	Text        []lineReference
+	Author      Author
+	Text        []string
 	Categories  []categoryReference
 	ReleaseDate primitive.DateTime `bson:"release_date"`
 }
@@ -20,10 +24,11 @@ type Work struct {
 }
 
 type Reader struct {
-	Name       string
-	Favorites  []poemReference
-	Lists      []PoemList
-	MostRecent poemReference `bson:"most_recent"`
+	Name          string
+	FavoritePoems []poemReference
+	FavoriteLines []favoriteLine
+	Lists         []PoemList
+	MostRecent    poemReference `bson:"most_recent"`
 }
 
 type PoemList struct {
@@ -37,10 +42,14 @@ type poemReference struct {
 	Sample []lineReference
 }
 
+type favoriteLine struct {
+	PoemID primitive.ObjectID
+	Line   lineReference
+}
+
 type lineReference struct {
-	PoemID primitive.ObjectID `bson:"poem_id"`
-	Text   string
-	Index  int8
+	Text  string
+	Index int8
 }
 
 type categoryReference struct {
