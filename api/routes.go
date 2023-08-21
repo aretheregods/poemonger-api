@@ -25,7 +25,7 @@ func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
 	p := new(db.Poem)
 
 	if err := c.BodyParser(p); err != nil {
-		SendBasicError(c, err, 400)
+		return SendBasicError(c, err, 400)
 	}
 
 	coll := routes.DB.Collection("poetry")
