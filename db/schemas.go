@@ -9,21 +9,21 @@ type Poem struct {
 	Author      string
 	Text        []lineReference
 	Categories  []categoryReference
-	ReleaseDate primitive.DateTime
+	ReleaseDate primitive.DateTime `bson:"release_date"`
 }
 
 type Work struct {
 	Name         string
 	Poems        []poemReference
-	CoverPoem    poemReference
-	NextPoemDate primitive.DateTime
+	CoverPoem    poemReference      `bson:"cover_poem"`
+	NextPoemDate primitive.DateTime `bson:"next_poem_date"`
 }
 
 type Reader struct {
 	Name       string
 	Favorites  []poemReference
 	Lists      []PoemList
-	MostRecent poemReference
+	MostRecent poemReference `bson:"most_recent"`
 }
 
 type PoemList struct {
@@ -38,9 +38,9 @@ type poemReference struct {
 }
 
 type lineReference struct {
-	ID   primitive.ObjectID
-	Text string
-	Poem poemReference
+	PoemID primitive.ObjectID `bson:"poem_id"`
+	Text   string
+	Index  int8
 }
 
 type categoryReference struct {
