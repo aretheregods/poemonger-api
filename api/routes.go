@@ -14,11 +14,11 @@ type APIRoutes struct {
 }
 
 func (routes *APIRoutes) GetAllPoems(c *fiber.Ctx) error {
-	return c.SendString("These are a bunch of poems")
+	return c.SendString("These are a bunch of poems.")
 }
 
 func (routes *APIRoutes) GetPoem(c *fiber.Ctx) error {
-	return c.SendString("This is a poem")
+	return c.SendString("This is a poem.")
 }
 
 func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
@@ -35,17 +35,17 @@ func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
 	}
 
 	return c.Status(201).JSON(fiber.Map{
-		"id": fmt.Sprint(res.InsertedID),
+		"id":   fmt.Sprint(res.InsertedID),
 		"link": fmt.Sprintf("/poetry/%v", res.InsertedID),
 	})
 }
 
 func (routes *APIRoutes) GetWorks(c *fiber.Ctx) error {
-	return c.SendString("These are collections of poems")
+	return c.SendString("These are collections of poems.")
 }
 
 func (routes *APIRoutes) GetWork(c *fiber.Ctx) error {
-	return c.SendString("This is a poetry collection")
+	return c.SendString("This is a poetry collection.")
 }
 
 func (routes *APIRoutes) PostWork(c *fiber.Ctx) error {
@@ -62,7 +62,7 @@ func (routes *APIRoutes) PostWork(c *fiber.Ctx) error {
 	}
 
 	return c.Status(201).JSON(fiber.Map{
-		"id": fmt.Sprint(res.InsertedID),
+		"id":   fmt.Sprint(res.InsertedID),
 		"link": fmt.Sprintf("/work/%v", res.InsertedID),
 	})
 }
