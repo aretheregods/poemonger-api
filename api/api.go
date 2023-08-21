@@ -1,6 +1,8 @@
 package api
 
 import (
+	"log"
+
 	"github.com/gofiber/fiber/v2"
 
 	"poemonger/api/db"
@@ -22,5 +24,8 @@ func InitializeAPI() {
 		return c.SendString("Nothing to see here!")
 	})
 
-	app.Listen(":4321")
+	err := app.Listen(":4321")
+	if err != nil {
+		log.Fatal("Couldn't run app. Retry")
+	}
 }
