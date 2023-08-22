@@ -4,12 +4,16 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/template/html/v2"
 
 	"poemonger/api/db"
 )
 
 func InitializeAPI() {
-	app := fiber.New()
+	engine := html.New("pages", ".html")
+	app := fiber.New(fiber.Config{
+        Views: engine,
+    })
 
 	poems := db.InitializeDB("poems")
 	api := &APIRoutes{poems}
@@ -20,9 +24,7 @@ func InitializeAPI() {
 	app.Get("/work/:id", api.GetWork)
 	app.Get("/work", api.GetWorks)
 	app.Post("/work", api.PostWork)
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Nothing to see here!")
-	})
+	app.Get("/", api.HomePage)
 
 	err := app.Listen(":4321")
 	if err != nil {

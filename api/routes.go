@@ -13,12 +13,24 @@ type APIRoutes struct {
 	DB *mongo.Database
 }
 
+func (routes *APIRoutes) HomePage(c *fiber.Ctx) error {
+	return c.Render("index", fiber.Map{
+		"Title": "Poemonger",
+	})
+}
+
 func (routes *APIRoutes) GetAllPoems(c *fiber.Ctx) error {
-	return c.SendString("These are a bunch of poems.")
+	return c.Render("Poems/index", fiber.Map{
+		"Title": "Poemonger",
+		"Subtitle": "These are poems.",
+	})
 }
 
 func (routes *APIRoutes) GetPoem(c *fiber.Ctx) error {
-	return c.SendString("This is a poem.")
+	return c.Render("Poem/index", fiber.Map{
+		"Title": "Poemonger",
+		"Subtitle": "This is a poem.",
+	})
 }
 
 func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
@@ -41,11 +53,17 @@ func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
 }
 
 func (routes *APIRoutes) GetWorks(c *fiber.Ctx) error {
-	return c.SendString("These are collections of poems.")
+	return c.Render("Works/index", fiber.Map{
+		"Title": "Poemonger",
+		"Subtitle": "These are collections of poems.",
+	})
 }
 
 func (routes *APIRoutes) GetWork(c *fiber.Ctx) error {
-	return c.SendString("This is a poetry collection.")
+	return c.Render("Work/index", fiber.Map{
+		"Title": "Poemonger",
+		"Subtitle": "This is a poetry collection.",
+	})
 }
 
 func (routes *APIRoutes) PostWork(c *fiber.Ctx) error {
