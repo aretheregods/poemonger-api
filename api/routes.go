@@ -34,6 +34,13 @@ func (routes *APIRoutes) GetPoem(c *fiber.Ctx) error {
 	})
 }
 
+func (routes *APIRoutes) AddPoemForm(c *fiber.Ctx) error {
+	return c.Render("Poem/add", fiber.Map{
+		"Title":    "Poemonger",
+		"Subtitle": "This is a form to add a poem.",
+	})
+}
+
 func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
 	p := new(db.Poem)
 
@@ -64,6 +71,13 @@ func (routes *APIRoutes) GetWork(c *fiber.Ctx) error {
 	return c.Render("Work/index", fiber.Map{
 		"Title":    "Poemonger",
 		"Subtitle": "This is a poetry collection.",
+	})
+}
+
+func (routes *APIRoutes) AddWorkForm(c *fiber.Ctx) error {
+	return c.Render("Work/add", fiber.Map{
+		"Title":    "Poemonger",
+		"Subtitle": "This is a form to add a work.",
 	})
 }
 
