@@ -26,8 +26,5 @@ func InitializeAPI() {
 	app.Post("/work", api.PostWork)
 	app.Get("/", api.HomePage)
 
-	err := app.Listen(":4321")
-	if err != nil {
-		log.Fatal("Couldn't run app. Retry")
-	}
+	log.Fatal(app.Listen(":4321"))
 }
