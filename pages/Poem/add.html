@@ -13,6 +13,16 @@
         <h1>{{.Title}}</h1>
         <p>{{.Subtitle}}</p>
     </main>
+    <form action="/poetry/add" method="post">
+        <label for="author">
+            <p>Author</p>
+            <input id="author" name="author" type="text">
+        </label>
+        <label for="title">
+            <p>Title</p>
+            <input id="title" name="title" type="text">
+        </label>
+    </form>
 </body>
 
 </html>
