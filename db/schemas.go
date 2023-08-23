@@ -16,6 +16,11 @@ type Poem struct {
 	ReleaseDate primitive.DateTime `bson:"release_date"`
 }
 
+type Category struct {
+	Name        string
+	Description string
+}
+
 type Work struct {
 	Name         string
 	Poems        []poemReference
