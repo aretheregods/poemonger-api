@@ -3,6 +3,7 @@ package api
 import (
 	"log"
 
+	"github.com/bytedance/sonic"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
 
@@ -12,6 +13,8 @@ import (
 func InitializeAPI() {
 	engine := html.New("pages", ".html")
 	app := fiber.New(fiber.Config{
+		JSONEncoder: sonic.Marshal,
+		JSONDecoder: sonic.Unmarshal,
         Views: engine,
     })
 
