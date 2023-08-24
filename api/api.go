@@ -1,6 +1,7 @@
 package api
 
 import (
+	"context"
 	"log"
 
 	"github.com/bytedance/sonic"
@@ -9,7 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func InitializeAPI(db *mongo.Database) {
+func InitializeAPI(db *mongo.Database, c *mongo.Client) {
 	engine := html.New("pages", ".html")
 	app := fiber.New(fiber.Config{
 		JSONEncoder: sonic.Marshal,
@@ -18,6 +19,7 @@ func InitializeAPI(db *mongo.Database) {
     })
 
 	api := &APIRoutes{db}
+	defer closeDBConnection(c)
 
 	app.Get("/poetry/new", api.AddPoemForm)
 	app.Get("/poetry/:id", api.GetPoem)
@@ -30,4 +32,10 @@ func InitializeAPI(db *mongo.Database) {
 	app.Get("/", api.HomePage)
 
 	log.Fatal(app.Listen(":4321"))
+}
+
+func closeDBConnection(c *mongo.Client) {
+	if err := c.Disconnect(context.TODO()); err != nil {
+		panic(err)
+	}
 }
