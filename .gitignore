@@ -18,7 +18,6 @@
 # vendor/
 
 # air reload related things
-.air.toml
 tmp/
 
 # vim tags file
