@@ -31,6 +31,10 @@ func InitializeAPI(db *mongo.Database, c *mongo.Client) {
 	app.Post("/work", api.PostWork)
 	app.Get("/", api.HomePage)
 
+	app.Static("/poetry", "./pages/Poem/static")
+	app.Static("/work", "./pages/Work/static")
+	app.Static("/", "./pages/static")
+
 	log.Fatal(app.Listen(":4321"))
 }
 

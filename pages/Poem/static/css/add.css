@@ -1,0 +1,14 @@
+main {
+    text-align: center;
+}
+
+form {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+#submit {
+    justify-self: end;
+    width: min-content;
+}

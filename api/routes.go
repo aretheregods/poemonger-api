@@ -23,7 +23,7 @@ func (routes *APIRoutes) HomePage(c *fiber.Ctx) error {
 }
 
 func (routes *APIRoutes) GetAllPoems(c *fiber.Ctx) error {
-	return c.Render("Poems/index", fiber.Map{
+	return c.Render("Poem/list", fiber.Map{
 		"Title":    "Poemonger",
 		"Subtitle": "These are poems.",
 	})
@@ -76,7 +76,7 @@ func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
 }
 
 func (routes *APIRoutes) GetWorks(c *fiber.Ctx) error {
-	return c.Render("Works/index", fiber.Map{
+	return c.Render("Work/list", fiber.Map{
 		"Title":    "Poemonger",
 		"Subtitle": "These are collections of poems.",
 	})
