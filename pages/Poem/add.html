@@ -16,11 +16,24 @@
     <form action="/poetry/add" method="post">
         <label for="author">
             <p>Author</p>
-            <input id="author" name="author" type="text">
+            <input id="author" name="author" type="text" required>
         </label>
         <label for="title">
             <p>Title</p>
-            <input id="title" name="title" type="text">
+            <input id="title" name="title" type="text" required>
+        </label>
+        <label for="categories">
+            <p>Categories</p>
+            <select name="categories" id="categories" multiple required>
+                <option value="" disabled>--Select poetry categories--</option>
+                {{range $_, $category := .Categories}}
+                    <option value="{{$category.Name}}" title="{{$category.Description}}">{{$category.Name}}</option>
+                {{end}}
+            </select>
+        </label>
+        <label for="poem">
+            <p>Poem</p>
+            <textarea id="poem" name="poem" cols="60" rows="28" required>Whose woods these area I think I know</textarea>
         </label>
     </form>
 </body>

@@ -1,9 +1,11 @@
 package api
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 
 	"poemonger/api/db"
@@ -31,13 +33,26 @@ func (routes *APIRoutes) GetPoem(c *fiber.Ctx) error {
 	return c.Render("Poem/index", fiber.Map{
 		"Title":    "Poemonger",
 		"Subtitle": "This is a poem.",
+		"PoemID": c.Params("id"),
 	})
 }
 
 func (routes *APIRoutes) AddPoemForm(c *fiber.Ctx) error {
+	categories := []db.Category{}
+	coll := routes.DB.Collection("categories")
+	res, err := coll.Find(context.TODO(), bson.M{})
+	if err != nil {
+		return SendBasicError(c, err, 400)
+	}
+	err = res.All(context.TODO(), &categories)
+	if err != nil {
+		return SendBasicError(c, err, 400)
+	}
+
 	return c.Render("Poem/add", fiber.Map{
 		"Title":    "Poemonger",
 		"Subtitle": "This is a form to add a poem.",
+		"Categories": categories,
 	})
 }
 
@@ -71,6 +86,7 @@ func (routes *APIRoutes) GetWork(c *fiber.Ctx) error {
 	return c.Render("Work/index", fiber.Map{
 		"Title":    "Poemonger",
 		"Subtitle": "This is a poetry collection.",
+		"WorkID": c.Params("id"),
 	})
 }
 
