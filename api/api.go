@@ -6,11 +6,10 @@ import (
 	"github.com/bytedance/sonic"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
-
-	"poemonger/api/db"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func InitializeAPI() {
+func InitializeAPI(db *mongo.Database) {
 	engine := html.New("pages", ".html")
 	app := fiber.New(fiber.Config{
 		JSONEncoder: sonic.Marshal,
@@ -18,8 +17,7 @@ func InitializeAPI() {
         Views: engine,
     })
 
-	poems := db.InitializeDB("poems")
-	api := &APIRoutes{poems}
+	api := &APIRoutes{db}
 
 	app.Get("/poetry/new", api.AddPoemForm)
 	app.Get("/poetry/:id", api.GetPoem)

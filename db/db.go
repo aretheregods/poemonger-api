@@ -7,11 +7,12 @@ import (
 	"os"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func InitializeDB(dbName string) *mongo.Database {
+func InitializeDB(dbName string) (*mongo.Database, *mongo.Client) {
 	serverAPIOptions := options.ServerAPI(options.ServerAPIVersion1)
 
 	var password string
@@ -36,13 +37,13 @@ func InitializeDB(dbName string) *mongo.Database {
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
 		log.Fatal(err)
+		panic(err)
 	}
 
-	defer func() {
-		if err = client.Disconnect(ctx); err != nil {
-			panic(err)
-		}
-	}()
+	if err := client.Database("poemonger").RunCommand(context.TODO(), bson.D{{Key: "ping", Value: 1}}).Err(); err != nil {
+		panic(err)
+	}
+	fmt.Println("Connected to MongoDB")
 
-	return client.Database(dbName)
+	return client.Database(dbName), client
 }
