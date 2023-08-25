@@ -17,6 +17,7 @@ type Poem struct {
 }
 
 type Category struct {
+	ID          primitive.ObjectID `bson:"_id" json:"id"`
 	Name        string
 	Description string
 }
