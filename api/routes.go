@@ -52,7 +52,7 @@ func (routes *APIRoutes) AddPoemForm(c *fiber.Ctx) error {
 	return c.Render("Poem/add", fiber.Map{
 		"Title":    "Poemonger",
 		"Subtitle": "This is a form to add a poem.",
-		"Categories": categories,
+		"Categories": &categories,
 	})
 }
 
