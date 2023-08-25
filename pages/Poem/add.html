@@ -27,8 +27,10 @@
             <p>Categories</p>
             <select name="categories" id="categories" multiple required>
                 <option value="" disabled>--Select poetry categories--</option>
-                {{range $_, $category := .Categories}}
-                    <option value="{{$category.Name}}" title="{{$category.Description}}">{{$category.Name}}</option>
+                {{range $i, $_ := .Categories}}
+                <option id="{{.Name}}-{{$i}}" value="{{.ID.Hex}}" title="{{.Description}}">
+                    {{.Name}}
+                </option>
                 {{end}}
             </select>
         </label>
