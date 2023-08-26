@@ -1,14 +1,14 @@
 main {
-    text-align: center;
+	text-align: center;
 }
 
 form {
-    display: grid;
-    align-items: center;
-    justify-content: center;
+	display: grid;
+	align-items: center;
+	justify-content: center;
 }
 
 #submit {
-    justify-self: end;
-    width: min-content;
+	justify-self: end;
+	width: min-content;
 }

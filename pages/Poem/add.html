@@ -1,49 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="stylesheet" type="text/css" href="css/add.css" />
+		<title>{{.Title}}: {{.Subtitle}}</title>
+	</head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="css/add.css">
-    <title>{{.Title}}: {{.Subtitle}}</title>
-</head>
-
-<body>
-    <main>
-        <h1>{{.Title}}</h1>
-        <p>{{.Subtitle}}</p>
-    </main>
-    <form action="/poetry" method="post">
-        <label for="author">
-            <p>Author</p>
-            <input id="author" name="author" type="text" required>
-        </label>
-        <label for="title">
-            <p>Title</p>
-            <input id="title" name="title" type="text" required>
-        </label>
-        <label for="categories">
-            <p>Categories</p>
-            <select name="categories" id="categories" multiple required>
-                <option value="" disabled>--Select poetry categories--</option>
-                {{range $i, $_ := .Categories}}
-                <option id="{{.Name}}-{{$i}}" value="{{.ID.Hex}}" title="{{.Description}}">
-                    {{.Name}}
-                </option>
-                {{end}}
-            </select>
-        </label>
-        <label for="release_date">
-            <p>Release Date</p>
-            <input id="release_date" name="release_date" type="date" required>
-        </label>
-        <label for="poem">
-            <p>Poem</p>
-            <textarea id="poem" name="poem" cols="60" rows="28" required>Whose woods these are I think I know</textarea>
-        </label>
-        <button id="submit" type="submit">Submit</button>
-    </form>
-</body>
-
+	<body>
+		<main>
+			<h1>{{.Title}}</h1>
+			<p>{{.Subtitle}}</p>
+		</main>
+		<form action="/poetry" method="post">
+			<label for="author">
+				<p>Author</p>
+				<input id="author" name="author" type="text" required />
+			</label>
+			<label for="title">
+				<p>Title</p>
+				<input id="title" name="title" type="text" required />
+			</label>
+			<label for="categories">
+				<p>Categories</p>
+				<select name="categories" id="categories" multiple required>
+					<option value="" disabled>
+						--Select poetry categories--
+					</option>
+					{{range $i, $_ := .Categories}}
+					<option
+						id="{{.Name}}-{{$i}}"
+						value="{{.ID.Hex}}"
+						title="{{.Description}}"
+					>
+						{{.Name}}
+					</option>
+					{{end}}
+				</select>
+			</label>
+			<label for="release_date">
+				<p>Release Date</p>
+				<input
+					id="release_date"
+					name="release_date"
+					type="date"
+					required
+				/>
+			</label>
+			<label for="poem">
+				<p>Poem</p>
+				<textarea
+					id="poem"
+					name="poem"
+					cols="60"
+					rows="28"
+					required
+					placeholder="Whose woods these are I think I know"
+				></textarea>
+			</label>
+			<button id="submit" type="submit">Submit</button>
+		</form>
+	</body>
 </html>
