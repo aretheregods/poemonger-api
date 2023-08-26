@@ -57,21 +57,21 @@ func (routes *APIRoutes) AddPoemForm(c *fiber.Ctx) error {
 }
 
 func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
-	p := new(db.Poem)
+	p := new(db.NewPoem)
 
 	if err := c.BodyParser(p); err != nil {
 		return SendBasicError(c, err, 400)
 	}
 
 	coll := routes.DB.Collection("poetry")
-	res, err := coll.InsertOne(c.Context(), p)
+	res, err := coll.InsertOne(c.Context(), &p)
 	if err != nil {
 		return SendBasicError(c, err, 400)
 	}
 
 	return c.Status(201).JSON(fiber.Map{
 		"id":   fmt.Sprint(res.InsertedID),
-		"link": fmt.Sprintf("/poetry/%v", res.InsertedID),
+		"link": fmt.Sprintf("/poetry/%v", &res.InsertedID),
 	})
 }
 
@@ -105,13 +105,13 @@ func (routes *APIRoutes) PostWork(c *fiber.Ctx) error {
 	}
 
 	coll := routes.DB.Collection("works")
-	res, err := coll.InsertOne(c.Context(), w)
+	res, err := coll.InsertOne(c.Context(), &w)
 	if err != nil {
 		return SendBasicError(c, err, 400)
 	}
 
 	return c.Status(201).JSON(fiber.Map{
 		"id":   fmt.Sprint(res.InsertedID),
-		"link": fmt.Sprintf("/work/%v", res.InsertedID),
+		"link": fmt.Sprintf("/work/%v", &res.InsertedID),
 	})
 }

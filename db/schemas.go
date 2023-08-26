@@ -8,12 +8,17 @@ type Author struct {
 	Name string
 }
 
-type Poem struct {
+type NewPoem struct {
 	Title       string
 	Author      Author
 	Text        []string
 	Categories  []categoryReference
 	ReleaseDate primitive.DateTime `bson:"release_date"`
+}
+
+type Poem struct {
+	NewPoem
+	ID primitive.ObjectID `bson:"_id" json:"id"`
 }
 
 type Category struct {
