@@ -15,6 +15,7 @@ func InitializeAPI(db *mongo.Database, c *mongo.Client) {
 	app := fiber.New(fiber.Config{
 		JSONEncoder: sonic.Marshal,
 		JSONDecoder: sonic.Unmarshal,
+		Prefork: true,
         Views: engine,
     })
 
