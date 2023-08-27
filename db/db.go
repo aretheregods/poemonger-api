@@ -15,22 +15,19 @@ import (
 func InitializeDB(dbName string) (*mongo.Database, *mongo.Client) {
 	serverAPIOptions := options.ServerAPI(options.ServerAPIVersion1)
 
-	var password string
-	var username string
-	var location string
+	var password, username, location string
+	envVarLink := "See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable"
 	if password = os.Getenv("MONGODB_PASSWORD"); password == "" {
-		log.Fatal("You must set your 'MONGODB_PASSWORD' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
+		log.Fatalf("You must set your 'MONGODB_PASSWORD' environmental variable. %v", envVarLink)
 	}
 	if username = os.Getenv("MONGODB_USERNAME"); username == "" {
-		log.Fatal("You must set your 'MONGODB_USERNAME' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
+		log.Fatalf("You must set your 'MONGODB_USERNAME' environmental variable. %v", envVarLink)
 	}
 	if location = os.Getenv("MONGODB_LOCATION"); location == "" {
-		log.Fatal("You must set your 'MONGODB_LOCATION' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
+		log.Fatalf("You must set your 'MONGODB_LOCATION' environmental variable. %v", envVarLink)
 	}
 	mongoURL := fmt.Sprintf("mongodb+srv://%v:%v@%v/?retryWrites=true&w=majority", username, password, location)
-	clientOptions := options.Client().
-		ApplyURI(mongoURL).
-		SetServerAPIOptions(serverAPIOptions)
+	clientOptions := options.Client().ApplyURI(mongoURL).SetServerAPIOptions(serverAPIOptions)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
