@@ -43,7 +43,6 @@ func InitializeDB(dbName string) (*mongo.Database, *mongo.Client) {
 	if err := client.Database("poemonger").RunCommand(context.TODO(), bson.D{{Key: "ping", Value: 1}}).Err(); err != nil {
 		panic(err)
 	}
-	fmt.Printf("Connected to MongoDB - %v", dbName)
 
 	return client.Database(dbName), client
 }
