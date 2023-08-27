@@ -64,14 +64,14 @@ type poemReaderReference struct {
 	ParentWork primitive.ObjectID
 }
 
-type favoriteLine struct {
-	PoemID primitive.ObjectID
-	Line   lineReference
-}
-
 type lineReference struct {
 	Text  string
 	Index int8
+}
+
+type favoriteLine struct {
+	PoemID primitive.ObjectID
+	Line   lineReference
 }
 
 type categoryReference struct {
