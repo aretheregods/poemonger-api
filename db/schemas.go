@@ -27,30 +27,41 @@ type Category struct {
 	Description string
 }
 
-type Work struct {
+type NewWork struct {
 	Name         string
 	Poems        []poemReference
 	CoverPoem    poemReference      `bson:"cover_poem"`
 	NextPoemDate primitive.DateTime `bson:"next_poem_date"`
 }
 
+type Work struct {
+	NewWork
+	ID primitive.ObjectID `bson:"_id" json:"id"`
+}
+
 type Reader struct {
+	ID primitive.ObjectID `bson:"_id" json:"id"`
 	Name          string
 	FavoritePoems []poemReference
 	FavoriteLines []favoriteLine
 	Lists         []PoemList
-	MostRecent    poemReference `bson:"most_recent"`
+	MostRecent    poemReaderReference `bson:"most_recent"`
 }
 
 type PoemList struct {
 	Name  string
-	Poems []poemReference
+	Poems []poemReaderReference
 }
 
 type poemReference struct {
 	ID     primitive.ObjectID
 	Title  string
 	Sample []lineReference
+}
+
+type poemReaderReference struct {
+	poemReference
+	ParentWork primitive.ObjectID
 }
 
 type favoriteLine struct {
