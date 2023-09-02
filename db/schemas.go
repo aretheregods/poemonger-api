@@ -1,7 +1,7 @@
 package db
 
 import (
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
 )
 
 type Author struct {
@@ -13,39 +13,43 @@ type NewPoem struct {
 	Author      Author
 	Text        []string
 	Categories  []categoryReference
-	ReleaseDate primitive.DateTime `bson:"release_date"`
+	ReleaseDate time.Time `firestore:"release_date"`
 }
 
 type Poem struct {
 	NewPoem
-	ID primitive.ObjectID `bson:"_id" json:"id"`
+	ID string `firestore:"id"`
+}
+
+type NewCategory struct {
+	Name        string
+	Description string
 }
 
 type Category struct {
-	ID          primitive.ObjectID `bson:"_id" json:"id"`
-	Name        string
-	Description string
+	NewCategory
+	ID string `firestore:"-"`
 }
 
 type NewWork struct {
 	Name         string
 	Poems        []poemReference
-	CoverPoem    poemReference      `bson:"cover_poem"`
-	NextPoemDate primitive.DateTime `bson:"next_poem_date"`
+	CoverPoem    poemReference `firestore:"cover_poem"`
+	NextPoemDate time.Time     `firestore:"next_poem_date"`
 }
 
 type Work struct {
 	NewWork
-	ID primitive.ObjectID `bson:"_id" json:"id"`
+	ID string `firestore:"id"`
 }
 
 type Reader struct {
-	ID primitive.ObjectID `bson:"_id" json:"id"`
+	ID            string `json:"id"`
 	Name          string
-	FavoritePoems []poemReference
-	FavoriteLines []favoriteLine
+	FavoritePoems []poemReference `json:"favorite_poems"`
+	FavoriteLines []favoriteLine  `json:"favorite_lines"`
 	Lists         []PoemList
-	MostRecent    poemReaderReference `bson:"most_recent"`
+	MostRecent    poemReaderReference `json:"most_recent"`
 }
 
 type PoemList struct {
@@ -54,14 +58,14 @@ type PoemList struct {
 }
 
 type poemReference struct {
-	ID     primitive.ObjectID
+	ID     string
 	Title  string
 	Sample []lineReference
 }
 
 type poemReaderReference struct {
 	poemReference
-	ParentWork primitive.ObjectID
+	ParentWork string `json:"parent_work"`
 }
 
 type lineReference struct {
@@ -70,11 +74,11 @@ type lineReference struct {
 }
 
 type favoriteLine struct {
-	PoemID primitive.ObjectID
+	PoemID string
 	Line   lineReference
 }
 
 type categoryReference struct {
-	ID   primitive.ObjectID
+	ID   string
 	Name string
 }

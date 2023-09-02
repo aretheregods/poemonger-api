@@ -15,6 +15,6 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	poemonger, client := db.InitializeDB("poemonger")
-	api.InitializeAPI(poemonger, client)
+	client := db.InitializeDB()
+	api.InitializeAPI(client)
 }

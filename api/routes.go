@@ -4,21 +4,84 @@ import (
 	"context"
 	"fmt"
 
+	firestore "cloud.google.com/go/firestore"
 	"github.com/gofiber/fiber/v2"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
 
 	"poemonger/api/db"
 )
 
 type APIRoutes struct {
-	DB *mongo.Database
+	DB *firestore.Client
 }
 
 func (routes *APIRoutes) HomePage(c *fiber.Ctx) error {
 	return c.Render("index", fiber.Map{
 		"Title":    "Poemonger",
 		"Subtitle": "Recent and popular poetry",
+	})
+}
+
+func (routes *APIRoutes) GetAllCategories(c *fiber.Ctx) error {
+	categories := []*db.Category{}
+	coll := routes.DB.Collection("categories")
+	res := coll.Documents(context.TODO())
+	docs, err := res.GetAll()
+	if err != nil {
+		return SendBasicError(c, err, 400)
+	}
+
+	for _, doc := range docs {
+		category := db.Category{}
+		err := doc.DataTo(&category)
+		if err != nil {
+			return SendBasicError(c, err, 400)
+		}
+		category.ID = doc.Ref.ID
+		categories = append(categories, &category)
+	}
+
+	return c.Render("Category/list", fiber.Map{
+		"Title": "Poemonger",
+		"Subtitle": "These are categories",
+		"Categories": &categories,
+	})
+}
+
+func (routes *APIRoutes) GetCategory(c *fiber.Ctx) error {
+	return c.Render("Category/index", fiber.Map{
+		"Title":    "Poemonger",
+		"Subtitle": "This is a category.",
+		"CategoryID": c.Params("id"),
+	})
+}
+
+func (routes *APIRoutes) AddCategoryForm(c *fiber.Ctx) error {
+	return c.Render("Category/add", fiber.Map{
+		"Title":    "Poemonger",
+		"Subtitle": "This is a form to add a category.",
+	})
+}
+
+func (routes *APIRoutes) PostCategory(c *fiber.Ctx) error {
+	category := new(db.NewCategory)
+
+	if err := c.BodyParser(category); err != nil {
+		return SendBasicError(c, err, 400)
+	}
+
+	coll := routes.DB.Collection("categories")
+	res, _, err := coll.Add(c.Context(), &category)
+	if err != nil {
+		return SendBasicError(c, err, 400)
+	}
+
+	return c.Status(201).JSON(fiber.Map{
+		"id":   fmt.Sprint(&res.ID),
+		"link": fiber.Map{
+			"rel": "noreferrer",
+			"_target": "self",
+			"href": "/categories",
+		},
 	})
 }
 
@@ -38,15 +101,21 @@ func (routes *APIRoutes) GetPoem(c *fiber.Ctx) error {
 }
 
 func (routes *APIRoutes) AddPoemForm(c *fiber.Ctx) error {
-	categories := []db.Category{}
+	categories := []*db.Category{}
 	coll := routes.DB.Collection("categories")
-	res, err := coll.Find(context.TODO(), bson.M{})
+	res := coll.Documents(context.TODO())
+	docs, err := res.GetAll()
 	if err != nil {
 		return SendBasicError(c, err, 400)
 	}
-	err = res.All(context.TODO(), &categories)
-	if err != nil {
-		return SendBasicError(c, err, 400)
+
+	for _, doc := range docs {
+		category := &db.Category{}
+		err := doc.DataTo(category)
+		if err != nil {
+			return SendBasicError(c, err, 400)
+		}
+		categories = append(categories, category)
 	}
 
 	return c.Render("Poem/add", fiber.Map{
@@ -64,14 +133,14 @@ func (routes *APIRoutes) PostPoem(c *fiber.Ctx) error {
 	}
 
 	coll := routes.DB.Collection("poetry")
-	res, err := coll.InsertOne(c.Context(), &p)
+	res, _, err := coll.Add(c.Context(), &p)
 	if err != nil {
 		return SendBasicError(c, err, 400)
 	}
 
 	return c.Status(201).JSON(fiber.Map{
-		"id":   fmt.Sprint(res.InsertedID),
-		"link": fmt.Sprintf("/poetry/%v", &res.InsertedID),
+		"id":   fmt.Sprint(&res.ID),
+		"link": fmt.Sprintf("/poetry/%v", &res.ID),
 	})
 }
 
@@ -105,13 +174,13 @@ func (routes *APIRoutes) PostWork(c *fiber.Ctx) error {
 	}
 
 	coll := routes.DB.Collection("works")
-	res, err := coll.InsertOne(c.Context(), &w)
+	res, _, err := coll.Add(c.Context(), &w)
 	if err != nil {
 		return SendBasicError(c, err, 400)
 	}
 
 	return c.Status(201).JSON(fiber.Map{
-		"id":   fmt.Sprint(res.InsertedID),
-		"link": fmt.Sprintf("/work/%v", &res.InsertedID),
+		"id":   fmt.Sprint(&res.ID),
+		"link": fmt.Sprintf("/works/%v", &res.ID),
 	})
 }
