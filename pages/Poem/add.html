@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<link rel="stylesheet" type="text/css" href="css/add.css" />
-		<script type="module" src="js/add.js"></script>
+		<script type="module" src="/poetry/js/add.js"></script>
 		<title>{{.Title}}: {{.Subtitle}}</title>
 	</head>
 
@@ -14,7 +14,7 @@
 			<h1>{{.Title}}</h1>
 			<p>{{.Subtitle}}</p>
 		</main>
-		<form action="/poetry" method="post">
+		<form id="form" action="/poetry" method="post">
 			<label for="author">
 				<p>Author</p>
 				<input id="author" name="author" type="text" required />
@@ -31,7 +31,7 @@
 					</option>
 					{{range $i, $_ := .Categories}}
 					<option
-						id="{{.Name}}-{{$i}}"
+						id="{{.Name}}"
 						value="{{.ID}}"
 						title="{{.Description}}"
 					>

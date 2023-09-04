@@ -14,9 +14,9 @@ func InitializeAPI(c *firestore.Client) {
 	app := fiber.New(fiber.Config{
 		JSONEncoder: sonic.Marshal,
 		JSONDecoder: sonic.Unmarshal,
-		Prefork: true,
-        Views: engine,
-    })
+		Prefork:     true,
+		Views:       engine,
+	})
 
 	api := &APIRoutes{c}
 	defer closeDBConnection(c)
@@ -25,22 +25,18 @@ func InitializeAPI(c *firestore.Client) {
 	app.Get("/categories/:id", api.GetCategory)
 	app.Get("/categories", api.GetAllCategories)
 	app.Post("/categories", api.PostCategory)
+	app.Delete("/categories", api.DeleteCategory)
 	app.Get("/poetry/new", api.AddPoemForm)
 	app.Get("/poetry/:id", api.GetPoem)
 	app.Get("/poetry", api.GetAllPoems)
 	app.Post("/poetry", api.PostPoem)
+	app.Delete("/poetry", api.DeletePoem)
 	app.Get("/works/new", api.AddWorkForm)
 	app.Get("/works/:id", api.GetWork)
 	app.Get("/works", api.GetWorks)
 	app.Post("/works", api.PostWork)
 	app.Get("/", api.HomePage)
 
-	app.Static("/categories*", "./pages/Category/static")
-	app.Static("/categories", "./pages/Category/static")
-	app.Static("/poetry*", "./pages/Poem/static")
-	app.Static("/poetry", "./pages/Poem/static")
-	app.Static("/works*", "./pages/Work/static")
-	app.Static("/works", "./pages/Work/static")
 	app.Static("/", "./pages/static")
 
 	log.Fatal(app.Listen(":4321"))

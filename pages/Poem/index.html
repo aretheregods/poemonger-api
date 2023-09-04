@@ -4,6 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<script type="module" src="/poetry/js/index.js"></script>
 		<title>{{.Title}}: {{.Subtitle}}</title>
 	</head>
 
@@ -12,5 +13,10 @@
 			<h1>{{.Title}}</h1>
 			<p>{{.Subtitle}} - {{.PoemID}}</p>
 		</main>
+		<article>
+			{{range $i, $line := .Poem.Poem}}
+			<p id="line-{{$i}}">{{$line}}</p>
+			{{end}}
+		</article>
 	</body>
 </html>
