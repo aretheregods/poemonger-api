@@ -44,12 +44,12 @@ type Work struct {
 }
 
 type Reader struct {
-	ID            string `json:"id"`
+	ID            string `firestore:"id"`
 	Name          string
-	FavoritePoems []poemReference `json:"favorite_poems"`
-	FavoriteLines []favoriteLine  `json:"favorite_lines"`
+	FavoritePoems []poemReference `firestore:"favorite_poems"`
+	FavoriteLines []favoriteLine  `firestore:"favorite_lines"`
 	Lists         []PoemList
-	MostRecent    poemReaderReference `json:"most_recent"`
+	MostRecent    poemReaderReference `firestore:"most_recent"`
 }
 
 type PoemList struct {
@@ -65,7 +65,7 @@ type poemReference struct {
 
 type poemReaderReference struct {
 	poemReference
-	ParentWork string `json:"parent_work"`
+	ParentWork string `firestore:"parent_work"`
 }
 
 type lineReference struct {
