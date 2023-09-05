@@ -12,3 +12,8 @@ form {
 	justify-self: end;
 	width: min-content;
 }
+
+#post-request-success {
+	display: flex;
+	justify-content: center;
+}

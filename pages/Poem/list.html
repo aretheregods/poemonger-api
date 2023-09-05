@@ -23,7 +23,7 @@
 				{{end}}
 			</section>
 			<section>
-				{{range $_, $text := .Poem}}
+				{{range $_, $text := slice .Poem 0 .SampleLength}}
 				<p>{{$text}}</p>
 				{{end}}
 			</section>

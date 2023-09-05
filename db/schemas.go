@@ -9,11 +9,12 @@ type Author struct {
 }
 
 type NewPoem struct {
-	Title       string `json:"title"`
-	Author      string `json:"author"`
-	Poem        []string `json:"poem"`
-	Categories  []categoryReference `json:"categories"`
-	ReleaseDate time.Time `firestore:"releaseDate" json:"release_date"`
+	Title        string              `json:"title"`
+	Author       string              `json:"author"`
+	Poem         []string            `json:"poem"`
+	SampleLength int8                `firestore:"sampleLength" json:"sampleLength"`
+	Categories   []categoryReference `json:"categories"`
+	ReleaseDate  time.Time           `firestore:"releaseDate" json:"releaseDate"`
 }
 
 type Poem struct {
@@ -80,5 +81,5 @@ type favoriteLine struct {
 
 type categoryReference struct {
 	ID   string `json:"id"`
-	Name string	`json:"name"`
+	Name string `json:"name"`
 }

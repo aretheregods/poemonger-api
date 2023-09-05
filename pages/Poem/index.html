@@ -14,8 +14,9 @@
 			<p>{{.Subtitle}} - {{.PoemID}}</p>
 		</main>
 		<article>
+			<h2>{{.Poem.Title}}</h2>
 			{{range $i, $line := .Poem.Poem}}
-			<p id="line-{{$i}}">{{$line}}</p>
+			{{if $line}}<p id="line-{{$i}}">{{$line}}</p>{{else}}<br>{{end}}
 			{{end}}
 		</article>
 	</body>

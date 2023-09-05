@@ -14,6 +14,11 @@
 			<h1>{{.Title}}</h1>
 			<p>{{.Subtitle}}</p>
 		</main>
+		<template id="success-message">
+			<div id="post-request-success">
+				<p>Great work! <a href="">See your poem here -></a></p>
+			</div>
+		</template>
 		<form id="form" action="/poetry" method="post">
 			<label for="author">
 				<p>Author</p>
@@ -40,12 +45,21 @@
 					{{end}}
 				</select>
 			</label>
-			<label for="release_date">
+			<label for="releaseDate">
 				<p>Release Date</p>
 				<input
-					id="release_date"
-					name="release_date"
+					id="releaseDate"
+					name="releaseDate"
 					type="date"
+					required
+				/>
+			</label>
+			<label for="sampleLength">
+				<p>Sample Length</p>
+				<input
+					id="sampleLength"
+					name="sampleLength"
+					type="number"
 					required
 				/>
 			</label>
