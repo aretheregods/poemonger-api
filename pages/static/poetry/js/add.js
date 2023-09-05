@@ -1,9 +1,10 @@
 import postData from "../../main/js/fetch.js";
+import { handleSuccessResponse } from "../../main/js/postResponses.js";
 
 postData(
     "/poetry",
     processFormData,
-    handlePostResponse,
+    handleSuccessResponse,
 	{ "Content-Type": "application/json" }
 );
 
@@ -25,11 +26,4 @@ function processFormData(f) {
     return JSON.stringify(fObj);
 }
 
-function handlePostResponse(r = {}) {
-    var t = document.getElementById('success-message');
-    var f = document.getElementById('form');
-    var c = t.content.cloneNode(true);
-    var a = c.querySelector('a');
-    a.setAttribute('href', r.link);
-    document.body.insertBefore(c, f);
-}
+
