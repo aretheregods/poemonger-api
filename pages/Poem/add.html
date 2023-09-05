@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<link rel="stylesheet" type="text/css" href="css/add.css" />
-		<script type="module" src="/poetry/js/add.js"></script>
-		<title>{{.Title}}: {{.Subtitle}}</title>
-	</head>
 
-	<body>
-		<main>
-			<h1>{{.Title}}</h1>
-			<p>{{.Subtitle}}</p>
-		</main>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<link rel="stylesheet" type="text/css" href="css/add.css" />
+	<script type="module" src="/poetry/js/add.js"></script>
+	<title>{{.Title}}: {{.Subtitle}}</title>
+</head>
+
+<body>
+	<header>
+		<h1>{{.Title}}</h1>
+		<p>{{.Subtitle}}</p>
+	</header>
+	<main>
 		{{template "message-success" "See your poem here"}}
 		<form id="form" action="/poetry" method="post">
 			<label for="author">
@@ -31,11 +33,7 @@
 						--Select poetry categories--
 					</option>
 					{{range $i, $_ := .Categories}}
-					<option
-						id="{{.Name}}"
-						value="{{.ID}}"
-						title="{{.Description}}"
-					>
+					<option id="{{.Name}}" value="{{.ID}}" title="{{.Description}}">
 						{{.Name}}
 					</option>
 					{{end}}
@@ -43,34 +41,20 @@
 			</label>
 			<label for="releaseDate">
 				<p>Release Date</p>
-				<input
-					id="releaseDate"
-					name="releaseDate"
-					type="date"
-					required
-				/>
+				<input id="releaseDate" name="releaseDate" type="date" required />
 			</label>
 			<label for="sampleLength">
 				<p>Sample Length</p>
-				<input
-					id="sampleLength"
-					name="sampleLength"
-					type="number"
-					required
-				/>
+				<input id="sampleLength" name="sampleLength" type="number" required />
 			</label>
 			<label for="poem">
 				<p>Poem</p>
-				<textarea
-					id="poem"
-					name="poem"
-					cols="60"
-					rows="28"
-					required
-					placeholder="Whose woods these are I think I know"
-				></textarea>
+				<textarea id="poem" name="poem" cols="60" rows="28" required
+					placeholder="Whose woods these are I think I know"></textarea>
 			</label>
 			<button id="submit" type="submit">Submit</button>
 		</form>
-	</body>
+	</main>
+</body>
+
 </html>

@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<script type="module" src="/poetry/js/list.js"></script>
-		<title>{{.Title}}: {{.Subtitle}}</title>
-	</head>
 
-	<body>
-		<main>
-			<h1>{{.Title}}</h1>
-			<p>{{.Subtitle}}</p>
-		</main>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<script type="module" src="/poetry/js/list.js"></script>
+	<title>{{.Title}}: {{.Subtitle}}</title>
+</head>
+
+<body>
+	<header>
+		<h1>{{.Title}}</h1>
+		<p>{{.Subtitle}}</p>
+	</header>
+	<main>
 		<section>
 			{{range $i, $_ := .Poems}}
 			<p id="{{.ID}}">{{.Title}}</p>
@@ -29,5 +31,7 @@
 			</section>
 			{{end}}
 		</section>
-	</body>
+	</main>
+</body>
+
 </html>
