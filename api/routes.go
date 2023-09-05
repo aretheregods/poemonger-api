@@ -9,7 +9,10 @@ import (
 )
 
 type APIRoutes struct {
-	DB *firestore.Client
+	DB         *firestore.Client
+	Categories string
+	Poetry     string
+	Works      string
 }
 
 func WithTimeout(timeoutLength int) (context.Context, context.CancelFunc) {

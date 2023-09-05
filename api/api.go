@@ -18,7 +18,7 @@ func InitializeAPI(c *firestore.Client) {
 		Views:       engine,
 	})
 
-	api := &APIRoutes{c}
+	api := &APIRoutes{c, "categories", "poetry", "works"}
 	defer closeDBConnection(c)
 
 	app.Get("/categories/new", api.AddCategoryForm)

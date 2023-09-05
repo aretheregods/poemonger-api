@@ -39,7 +39,7 @@ func (r *APIRoutes) PostWork(c *fiber.Ctx) error {
 		return SendBasicError(c, err, fiber.StatusUnprocessableEntity)
 	}
 
-	coll := r.DB.Collection("works")
+	coll := r.DB.Collection(r.Works)
 	res, _, err := coll.Add(ctxTimeout, &w)
 	if err != nil {
 		return SendBasicError(c, err, fiber.StatusBadGateway)
@@ -47,6 +47,6 @@ func (r *APIRoutes) PostWork(c *fiber.Ctx) error {
 
 	return c.Status(201).JSON(fiber.Map{
 		"id":   fmt.Sprint(&res.ID),
-		"link": fmt.Sprintf("/works/%v", &res.ID),
+		"link": fmt.Sprintf("/%v/%v", r.Works, &res.ID),
 	})
 }

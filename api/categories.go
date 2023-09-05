@@ -13,7 +13,7 @@ func (r *APIRoutes) GetAllCategories(c *fiber.Ctx) error {
 	defer cancel()
 
 	categories := []*db.Category{}
-	coll := r.DB.Collection("categories")
+	coll := r.DB.Collection(r.Categories)
 	docs := coll.Documents(ctxTimeout)
 
 	for {
@@ -64,7 +64,7 @@ func (r *APIRoutes) PostCategory(c *fiber.Ctx) error {
 		return SendBasicError(c, err, fiber.StatusUnprocessableEntity)
 	}
 
-	coll := r.DB.Collection("categories")
+	coll := r.DB.Collection(r.Categories)
 	res, _, err := coll.Add(ctxTimeout, &category)
 	if err != nil {
 		return SendBasicError(c, err, fiber.StatusBadGateway)
@@ -75,7 +75,7 @@ func (r *APIRoutes) PostCategory(c *fiber.Ctx) error {
 		"link": fiber.Map{
 			"rel":     "noreferrer",
 			"_target": "self",
-			"href":    "/categories",
+			"href":    fmt.Sprintf("/%v", r.Categories),
 		},
 	})
 }
@@ -92,7 +92,7 @@ func (r *APIRoutes) DeleteCategory(c *fiber.Ctx) error {
 	ctxTimeout, cancel := WithTimeout(10)
 	defer cancel()
 
-	coll := r.DB.Collection("categories")
+	coll := r.DB.Collection(r.Categories)
 	_, err := coll.Doc(cat.ID).Delete(ctxTimeout)
 	if err != nil {
 		return SendBasicError(c, err, fiber.StatusBadGateway)
