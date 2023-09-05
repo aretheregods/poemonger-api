@@ -14,11 +14,7 @@
 			<h1>{{.Title}}</h1>
 			<p>{{.Subtitle}}</p>
 		</main>
-		<template id="success-message">
-			<div id="post-request-success">
-				<p>Great work! <a href="">See your poem here -></a></p>
-			</div>
-		</template>
+		{{template "message-success" "See your poem here"}}
 		<form id="form" action="/poetry" method="post">
 			<label for="author">
 				<p>Author</p>
