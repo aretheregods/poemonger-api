@@ -17,7 +17,9 @@
 	<main>
 		<section>
 			{{range $i, $_ := .Poems}}
-			<p id="{{.ID}}">{{.Title}}</p>
+			<p id="{{.ID}}">
+				<a href="/poetry/{{.ID}}">{{.Title}}</a>
+			</p>
 			<button id="{{.ID}}" class="delete">delete</button>
 			<section>
 				{{range $_, $c := .Categories}}
@@ -25,8 +27,8 @@
 				{{end}}
 			</section>
 			<section>
-				{{range $_, $text := slice .Poem 0 .SampleLength}}
-				<p>{{$text}}</p>
+				{{range $_, $line := slice .Poem 0 .SampleLength}}
+				{{if $line}}<p id="line-{{$i}}">{{$line}}</p>{{else}}<br>{{end}}
 				{{end}}
 			</section>
 			{{end}}
