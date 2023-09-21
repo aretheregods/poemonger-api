@@ -9,17 +9,17 @@ type Author struct {
 }
 
 type NewPoem struct {
-	Title        string              `json:"title"`
-	Author       string              `json:"author"`
-	Poem         []string            `json:"poem"`
+	Title        string              `firestore:"title" json:"title"`
+	Author       string              `firestore:"author" json:"author"`
+	Poem         []string            `firestore:"poem" json:"poem"`
 	SampleLength int8                `firestore:"sampleLength" json:"sampleLength"`
-	Categories   []categoryReference `json:"categories"`
+	Categories   []categoryReference `firestore:"categories" json:"categories"`
 	ReleaseDate  time.Time           `firestore:"releaseDate" json:"releaseDate"`
 }
 
 type Poem struct {
 	NewPoem
-	ID string `firestore:"-"`
+	ID string `firestore:"-" json:"id"`
 }
 
 type NewCategory struct {
@@ -45,12 +45,12 @@ type Work struct {
 }
 
 type Reader struct {
-	ID            string `firestore:"-"`
+	ID            string `firestore:"-" json:"id"`
 	Name          string
-	FavoritePoems []poemReference `firestore:"favoritePoems"`
-	FavoriteLines []favoriteLine  `firestore:"favoriteLines"`
+	FavoritePoems []poemReference `firestore:"favoritePoems" json:"favoritePoems"`
+	FavoriteLines []favoriteLine  `firestore:"favoriteLines" json:"favoriteLines"`
 	Lists         []PoemList
-	MostRecent    poemReaderReference `firestore:"mostRecent"`
+	MostRecent    poemReaderReference `firestore:"mostRecent" json:"mostRecent"`
 }
 
 type PoemList struct {
@@ -66,7 +66,7 @@ type poemReference struct {
 
 type poemReaderReference struct {
 	poemReference
-	ParentWork string `firestore:"parentWork"`
+	ParentWork string `firestore:"parentWork" json:"parentWork"`
 }
 
 type lineReference struct {
@@ -80,6 +80,6 @@ type favoriteLine struct {
 }
 
 type categoryReference struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID   string `firestore:"id" json:"id"`
+	Name string `firestore:"name" json:"name"`
 }
