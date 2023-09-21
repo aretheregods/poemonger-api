@@ -4,5 +4,10 @@ export function handleSuccessResponse(r = {}) {
     var c = t.content.cloneNode(true);
     var a = c.querySelector('a');
     a.setAttribute('href', r.link);
-    document.body.insertBefore(c, f);
+    f.parentNode.insertBefore(c, f);
+    setTimeout(() => {
+        var m = document.getElementById('post-request-success');
+        f.parentNode.removeChild(m);
+        f.reset();
+    }, 7000);
 }
