@@ -3,7 +3,7 @@ for (var button of deleteButtons) {
 	button.addEventListener("click", (e) => {
 		e.preventDefault();
 		var f = new FormData(undefined, e.target);
-		f.append("id", e.target.id);
+		f.append("name", e.target.id);
 		fetch("/categories", { method: "DELETE", body: f })
             .then((r) => window.location.reload())
 			.catch(() =>

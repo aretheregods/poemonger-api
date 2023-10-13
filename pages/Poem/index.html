@@ -12,7 +12,7 @@
 <body>
 	<header>
 		<h1>{{.Title}}</h1>
-		<p>{{.Subtitle}} - {{.PoemID}}</p>
+		{{template "navigation-main" .ParentData}}
 	</header>
 	<main>
 		<article>

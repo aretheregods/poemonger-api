@@ -18,8 +18,8 @@
 		<section>
 			<h2>Categories</h2>
 			{{range $i, $_ := .Categories}}
-			<a id="{{.Name}}-{{$i}}" href="/categories/{{.ID}}" title="{{.Description}}">{{.Name}}</a>
-			<button id="{{.ID}}" class="delete">Delete</button>
+			<a id="{{.Name}}-{{$i}}" href="/categories/{{.Name}}" title="{{.Description}}">{{.Name}}</a>
+			<button id="{{.Name}}" class="delete">Delete</button>
 			{{end}}
 		</section>
 	</main>

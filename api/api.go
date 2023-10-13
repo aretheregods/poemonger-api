@@ -15,6 +15,7 @@ func InitializeAPI(c *firestore.Client) {
 		JSONEncoder: sonic.Marshal,
 		JSONDecoder: sonic.Unmarshal,
 		Prefork:     true,
+		UnescapePath: true,
 		Views:       engine,
 	})
 

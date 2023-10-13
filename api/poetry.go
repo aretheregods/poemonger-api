@@ -36,7 +36,7 @@ func (r *APIRoutes) GetAllPoems(c *fiber.Ctx) error {
 	return c.Render("Poem/list", fiber.Map{
 		"Title":    "Poemonger",
 		"Subtitle": "These are poems.",
-		"Poems":    poems,
+		"Poems":    &poems,
 	})
 }
 
@@ -61,7 +61,11 @@ func (r *APIRoutes) GetPoem(c *fiber.Ctx) error {
 		"Title":    "Poemonger",
 		"Subtitle": "This is a poem.",
 		"PoemID":   c.Params("id"),
-		"Poem":     p,
+		"ParentData": fiber.Map{
+			"ParentLink":  "/poetry",
+			"ParentTitle": "Back to Poetry",
+		},
+		"Poem": &p,
 	})
 }
 
@@ -86,7 +90,6 @@ func (r *APIRoutes) AddPoemForm(c *fiber.Ctx) error {
 		if err != nil {
 			return SendBasicError(c, err, fiber.StatusUnprocessableEntity)
 		}
-		category.ID = doc.Ref.ID
 		categories = append(categories, &category)
 	}
 

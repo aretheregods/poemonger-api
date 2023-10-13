@@ -9,12 +9,12 @@ type Author struct {
 }
 
 type NewPoem struct {
-	Title        string              `firestore:"title" json:"title"`
-	Author       string              `firestore:"author" json:"author"`
-	Poem         []string            `firestore:"poem" json:"poem"`
-	SampleLength int8                `firestore:"sampleLength" json:"sampleLength"`
-	Categories   []categoryReference `firestore:"categories" json:"categories"`
-	ReleaseDate  time.Time           `firestore:"releaseDate" json:"releaseDate"`
+	Title        string    `firestore:"title" json:"title"`
+	Author       string    `firestore:"author" json:"author"`
+	Poem         []string  `firestore:"poem" json:"poem"`
+	SampleLength int8      `firestore:"sampleLength" json:"sampleLength"`
+	Categories   []string  `firestore:"categories" json:"categories"`
+	ReleaseDate  time.Time `firestore:"releaseDate" json:"releaseDate"`
 }
 
 type Poem struct {
@@ -22,14 +22,9 @@ type Poem struct {
 	ID string `firestore:"-" json:"id"`
 }
 
-type NewCategory struct {
+type Category struct {
 	Name        string
 	Description string
-}
-
-type Category struct {
-	NewCategory
-	ID string `firestore:"-"`
 }
 
 type NewWork struct {
@@ -77,9 +72,4 @@ type lineReference struct {
 type favoriteLine struct {
 	PoemID string
 	Line   lineReference
-}
-
-type categoryReference struct {
-	ID   string `firestore:"id" json:"id"`
-	Name string `firestore:"name" json:"name"`
 }

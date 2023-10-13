@@ -12,8 +12,27 @@
 <body>
 	<header>
 		<h1>{{.Title}}</h1>
-		<p>{{.Subtitle}} - {{.CategoryID}}</p>
+		{{template "navigation-main" .ParentData}}
 	</header>
+	<section>
+		{{range $i, $_ := .Poems}}
+		<p id="{{.ID}}">
+			<a href="/poetry/{{.ID}}">{{.Title}}</a>
+		</p>
+		<button id="{{.ID}}" class="delete">delete</button>
+		<section>
+			{{range $_, $c := .Categories}}
+			<a id="category-{{$c}}" href="/categories/{{$c}}">{{$c}}</a>
+			{{end}}
+		</section>
+		<section>
+			{{range $_, $line := slice .Poem 0 .SampleLength}}
+			{{if $line}}<p id="line-{{$i}}">{{$line}}</p>{{else}}<br>{{end}}
+			{{end}}
+			<p><strong>&#8230;</strong></p>
+		</section>
+		{{end}}
+	</section>
 </body>
 
 </html>

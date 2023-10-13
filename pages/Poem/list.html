@@ -23,13 +23,14 @@
 			<button id="{{.ID}}" class="delete">delete</button>
 			<section>
 				{{range $_, $c := .Categories}}
-				<a id="category-{{$c.ID}}" href="/categories/{{$c.ID}}">{{$c.Name}}</a>
+				<a id="category-{{$c}}" href="/categories/{{$c}}">{{$c}}</a>
 				{{end}}
 			</section>
 			<section>
 				{{range $_, $line := slice .Poem 0 .SampleLength}}
 				{{if $line}}<p id="line-{{$i}}">{{$line}}</p>{{else}}<br>{{end}}
 				{{end}}
+				<p><strong>&#8230;</strong></p>
 			</section>
 			{{end}}
 		</section>

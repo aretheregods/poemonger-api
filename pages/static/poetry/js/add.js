@@ -17,7 +17,7 @@ function processFormData(f) {
         fObj[k] = v;
     });
     c.forEach((v) => {
-        categories.push({ id: v.value, name: v.id });
+        categories.push(v.value);
     });
     fObj.categories = categories;
     fObj.poem = p.split("\n");

@@ -33,7 +33,7 @@
 						--Select poetry categories--
 					</option>
 					{{range $i, $_ := .Categories}}
-					<option id="{{.Name}}" value="{{.ID}}" title="{{.Description}}">
+					<option id="{{.Name}}" value="{{.Name}}" title="{{.Description}}">
 						{{.Name}}
 					</option>
 					{{end}}

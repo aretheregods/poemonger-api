@@ -29,7 +29,6 @@ func (r *APIRoutes) GetAllCategories(c *fiber.Ctx) error {
 		if err != nil {
 			return SendBasicError(c, err, fiber.StatusUnprocessableEntity)
 		}
-		category.ID = doc.Ref.ID
 		categories = append(categories, &category)
 	}
 
@@ -41,10 +40,38 @@ func (r *APIRoutes) GetAllCategories(c *fiber.Ctx) error {
 }
 
 func (r *APIRoutes) GetCategory(c *fiber.Ctx) error {
+	ctxTimeout, cancel := WithTimeout(10)
+	defer cancel()
+
+	poems := []*db.Poem{}
+	coll := r.DB.Collection(r.Poetry)
+	docs := coll.Where("categories", "array-contains", c.Params("id")).Documents(ctxTimeout)
+
+	for {
+		doc, err := docs.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			return SendBasicError(c, err, fiber.StatusBadGateway)
+		}
+		poem := db.Poem{}
+		err = doc.DataTo(&poem)
+		if err != nil {
+			return SendBasicError(c, err, fiber.StatusUnprocessableEntity)
+		}
+		poem.ID = doc.Ref.ID
+		poems = append(poems, &poem)
+	}
+
 	return c.Render("Category/index", fiber.Map{
-		"Title":      "Poemonger",
-		"Subtitle":   "This is a category.",
-		"CategoryID": c.Params("id"),
+		"Title":    "Poemonger",
+		"Subtitle": "This is a category.",
+		"ParentData": fiber.Map{
+			"ParentLink":  "/poetry",
+			"ParentTitle": "Back to Poetry",
+		},
+		"Poems": &poems,
 	})
 }
 
@@ -59,19 +86,19 @@ func (r *APIRoutes) PostCategory(c *fiber.Ctx) error {
 	ctxTimeout, cancel := WithTimeout(10)
 	defer cancel()
 
-	category := new(db.NewCategory)
+	category := new(db.Category)
 	if err := c.BodyParser(category); err != nil {
 		return SendBasicError(c, err, fiber.StatusUnprocessableEntity)
 	}
 
 	coll := r.DB.Collection(r.Categories)
-	res, _, err := coll.Add(ctxTimeout, &category)
+	_, err := coll.Doc(category.Name).Set(ctxTimeout, &category)
 	if err != nil {
 		return SendBasicError(c, err, fiber.StatusBadGateway)
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"id": fmt.Sprint(&res.ID),
+		"id": fmt.Sprint(category.Name),
 		"link": fiber.Map{
 			"rel":     "noreferrer",
 			"_target": "self",
@@ -82,7 +109,7 @@ func (r *APIRoutes) PostCategory(c *fiber.Ctx) error {
 
 func (r *APIRoutes) DeleteCategory(c *fiber.Ctx) error {
 	type category struct {
-		ID string `json:"id"`
+		Name string `json:"name"`
 	}
 	cat := new(category)
 	if err := c.BodyParser(cat); err != nil {
@@ -93,7 +120,7 @@ func (r *APIRoutes) DeleteCategory(c *fiber.Ctx) error {
 	defer cancel()
 
 	coll := r.DB.Collection(r.Categories)
-	_, err := coll.Doc(cat.ID).Delete(ctxTimeout)
+	_, err := coll.Doc(cat.Name).Delete(ctxTimeout)
 	if err != nil {
 		return SendBasicError(c, err, fiber.StatusBadGateway)
 	}
