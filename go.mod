@@ -3,19 +3,19 @@ module poemonger/api
 go 1.18
 
 require (
-	cloud.google.com/go/firestore v1.13.0
+	cloud.google.com/go/firestore v1.14.0
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/bytedance/sonic v1.10.2
 	github.com/gofiber/fiber/v2 v2.50.0
-	google.golang.org/api v0.147.0
+	google.golang.org/api v0.148.0
 )
 
 require (
-	cloud.google.com/go v0.110.8 // indirect
-	cloud.google.com/go/compute v1.23.1 // indirect
+	cloud.google.com/go v0.110.9 // indirect
+	cloud.google.com/go/compute v1.23.2 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
-	cloud.google.com/go/iam v1.1.3 // indirect
-	cloud.google.com/go/longrunning v0.5.2 // indirect
+	cloud.google.com/go/iam v1.1.4 // indirect
+	cloud.google.com/go/longrunning v0.5.3 // indirect
 	cloud.google.com/go/storage v1.33.0 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
 	github.com/chenzhuoyu/iasm v0.9.0 // indirect
@@ -26,10 +26,9 @@ require (
 	github.com/gofiber/utils v1.1.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
-	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/s2a-go v0.1.7 // indirect
-	github.com/google/uuid v1.3.1 // indirect
-	github.com/googleapis/enterprise-certificate-proxy v0.3.1 // indirect
+	github.com/google/uuid v1.4.0 // indirect
+	github.com/googleapis/enterprise-certificate-proxy v0.3.2 // indirect
 	github.com/googleapis/gax-go/v2 v2.12.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
 	github.com/leodido/go-urn v1.2.4 // indirect
@@ -57,7 +56,7 @@ require (
 	github.com/go-playground/validator/v10 v10.15.5
 	github.com/gofiber/template/html/v2 v2.0.5
 	github.com/joho/godotenv v1.5.1
-	github.com/klauspost/compress v1.17.1 // indirect
+	github.com/klauspost/compress v1.17.2 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.50.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
