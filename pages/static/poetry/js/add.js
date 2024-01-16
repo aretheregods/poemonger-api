@@ -13,17 +13,19 @@ function processFormData(f) {
     var c = document.querySelectorAll('#categories option:checked');
     var p = f.get("poem");
     var categories = [];
+
     f.forEach((v, k) => {
         fObj[k] = v;
     });
+
     c.forEach((v) => {
         categories.push(v.value);
     });
+
     fObj.categories = categories;
     fObj.poem = p.split("\n");
     fObj.releaseDate = new Date(...fObj.releaseDate.split("-"));
     fObj.sampleLength = Number(fObj.sampleLength);
+
     return JSON.stringify(fObj);
 }
-
-

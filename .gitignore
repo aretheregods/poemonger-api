@@ -17,6 +17,11 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
+# firebase related
+firebase-*
+firestore-*
+ui-*
+
 # air reload related things
 tmp/
 
