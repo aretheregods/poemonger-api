@@ -7,10 +7,12 @@ export function handleSuccessResponse(r = {}) {
     a.setAttribute('href', r.link);
     f.parentNode.insertBefore(c, f);
 
-    setTimeout(() => {
-        var m = document.getElementById('post-request-success');
+    setTimeout(removeMessage, 7000);
 
+    function removeMessage() {
+        var m = document.getElementById('post-request-success');
+    
         f.parentNode.removeChild(m);
         f.reset();
-    }, 7000);
+    }
 }
