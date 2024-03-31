@@ -1,0 +1,24 @@
+{
+  "name": "poemonger",
+  "version": "0.0.1",
+  "description": "poetry",
+  "main": "pages/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aretheregods/poemonger-api.git"
+  },
+  "keywords": [
+    "poetry",
+    "go",
+    "javascript"
+  ],
+  "author": "poemonger",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aretheregods/poemonger-api/issues"
+  },
+  "homepage": "https://github.com/aretheregods/poemonger-api#readme"
+}
