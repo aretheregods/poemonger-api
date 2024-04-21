@@ -1,26 +1,26 @@
 package api
 
 import (
+	"database/sql"
 	"log"
 
-	"cloud.google.com/go/firestore"
 	"github.com/bytedance/sonic"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/html/v2"
 )
 
-func InitializeAPI(c *firestore.Client) {
+func InitializeAPI(d *sql.DB) {
 	engine := html.New("pages", ".html")
 	app := fiber.New(fiber.Config{
-		JSONEncoder: sonic.Marshal,
-		JSONDecoder: sonic.Unmarshal,
-		Prefork:     true,
+		JSONEncoder:  sonic.Marshal,
+		JSONDecoder:  sonic.Unmarshal,
+		Prefork:      true,
 		UnescapePath: true,
-		Views:       engine,
+		Views:        engine,
 	})
 
-	api := &APIRoutes{c, "categories", "poetry", "works"}
-	defer closeDBConnection(c)
+	api := &APIRoutes{d, "categories", "poetry", "works", "signup", "login", "logout", "reset", "delete"}
+	defer closeDBConnection(d)
 
 	app.Get("/categories/new", api.AddCategoryForm)
 	app.Get("/categories/:id", api.GetCategory)
@@ -43,8 +43,8 @@ func InitializeAPI(c *firestore.Client) {
 	log.Fatal(app.Listen(":4321"))
 }
 
-func closeDBConnection(c *firestore.Client) {
-	if err := c.Close(); err != nil {
+func closeDBConnection(d *sql.DB) {
+	if err := d.Close(); err != nil {
 		panic(err)
 	}
 }

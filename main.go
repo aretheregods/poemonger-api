@@ -16,5 +16,6 @@ func main() {
 	}
 
 	client := db.InitializeDB()
+	db.InitializeTables(client)
 	api.InitializeAPI(client)
 }

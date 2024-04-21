@@ -1,23 +1,26 @@
 package api
 
 import (
+	"database/sql"
 	"fmt"
 	"poemonger/api/db"
+	"poemonger/api/with_time"
 
 	"github.com/gofiber/fiber/v2"
 	"google.golang.org/api/iterator"
 )
 
 func (r *APIRoutes) GetAllPoems(c *fiber.Ctx) error {
-	ctxTimeout, cancel := WithTimeout(10)
+	ctxTimeout, cancel := withTime.WithTimeout(10)
 	defer cancel()
 
 	poems := []*db.Poem{}
-	coll := r.DB.Collection(r.Poetry)
-	docs := coll.Documents(ctxTimeout)
+	rows, err := r.DB.QueryContext(ctxTimeout, fmt.Sprintf("select * from %s", r.Categories))
+	if err != nil {
+		return SendBasicError(c, err, fiber.StatusBadGateway)
+	}
 
-	for {
-		doc, err := docs.Next()
+	for rows.Next() {
 		if err == iterator.Done {
 			break
 		}
@@ -25,11 +28,11 @@ func (r *APIRoutes) GetAllPoems(c *fiber.Ctx) error {
 			return SendBasicError(c, err, fiber.StatusBadGateway)
 		}
 		poem := db.Poem{}
-		err = doc.DataTo(&poem)
+		err = rows.Scan(&poem)
 		if err != nil {
 			return SendBasicError(c, err, fiber.StatusUnprocessableEntity)
 		}
-		poem.ID = doc.Ref.ID
+
 		poems = append(poems, &poem)
 	}
 
@@ -41,21 +44,17 @@ func (r *APIRoutes) GetAllPoems(c *fiber.Ctx) error {
 }
 
 func (r *APIRoutes) GetPoem(c *fiber.Ctx) error {
-	ctxTimeout, cancel := WithTimeout(10)
+	ctxTimeout, cancel := withTime.WithTimeout(10)
 	defer cancel()
 
 	p := new(db.Poem)
-	coll := r.DB.Collection(r.Poetry)
-	doc, err := coll.Doc(c.Params("id")).Get(ctxTimeout)
+	err := r.DB.QueryRowContext(ctxTimeout, fmt.Sprintf("select * from %v where id =?", r.Poetry), c.Params("id")).Scan(&p)
+	if err == sql.ErrNoRows {
+		return SendBasicError(c, err, fiber.StatusNotFound)
+	}
 	if err != nil {
 		return SendBasicError(c, err, fiber.StatusBadGateway)
 	}
-
-	err = doc.DataTo(&p)
-	if err != nil {
-		return SendBasicError(c, err, fiber.StatusUnprocessableEntity)
-	}
-	p.ID = doc.Ref.ID
 
 	return c.Render("Poem/index", fiber.Map{
 		"Title":    "Poemonger",
@@ -70,23 +69,18 @@ func (r *APIRoutes) GetPoem(c *fiber.Ctx) error {
 }
 
 func (r *APIRoutes) AddPoemForm(c *fiber.Ctx) error {
-	ctxTimeout, cancel := WithTimeout(10)
+	ctxTimeout, cancel := withTime.WithTimeout(10)
 	defer cancel()
 
 	categories := []*db.Category{}
-	coll := r.DB.Collection("categories")
-	docs := coll.Documents(ctxTimeout)
+	rows, err := r.DB.QueryContext(ctxTimeout, fmt.Sprintf("select * from %v", r.Categories))
+	if err != nil {
+		return SendBasicError(c, err, fiber.StatusBadRequest)
+	}
 
-	for {
-		doc, err := docs.Next()
-		if err == iterator.Done {
-			break
-		}
-		if err != nil {
-			return SendBasicError(c, err, fiber.StatusBadGateway)
-		}
+	for rows.Next() {
 		category := db.Category{}
-		err = doc.DataTo(&category)
+		err = rows.Scan(&category)
 		if err != nil {
 			return SendBasicError(c, err, fiber.StatusUnprocessableEntity)
 		}
@@ -101,7 +95,7 @@ func (r *APIRoutes) AddPoemForm(c *fiber.Ctx) error {
 }
 
 func (r *APIRoutes) PostPoem(c *fiber.Ctx) error {
-	ctxTimeout, cancel := WithTimeout(10)
+	ctxTimeout, cancel := withTime.WithTimeout(10)
 	defer cancel()
 
 	p := new(db.NewPoem)
@@ -110,20 +104,27 @@ func (r *APIRoutes) PostPoem(c *fiber.Ctx) error {
 		return SendBasicError(c, err, fiber.StatusUnprocessableEntity)
 	}
 
-	coll := r.DB.Collection(r.Poetry)
-	res, _, err := coll.Add(ctxTimeout, &p)
+	res, err := r.DB.ExecContext(
+		ctxTimeout, 
+		fmt.Sprintf("insert or replace into %v (id, title, author, poem, sample_length, categories, release_date) values (NULL, ?, ?, ?, ?, ?, ?)", r.Poetry),
+		 p.Title, p.Author, p.Poem, p.SampleLength, p.Categories, p.ReleaseDate)
 	if err != nil {
 		return SendBasicError(c, err, fiber.StatusBadRequest)
 	}
 
+	id, err := res.LastInsertId()
+	if err != nil {
+		return SendBasicError(c, err, fiber.StatusNotFound)
+	}
+
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"id":   fmt.Sprint(&res.ID),
-		"link": fmt.Sprintf("/%v/%v", r.Poetry, res.ID),
+		"id":   fmt.Sprint(id),
+		"link": fmt.Sprintf("/%v/%v", r.Poetry, id),
 	})
 }
 
 func (r *APIRoutes) DeletePoem(c *fiber.Ctx) error {
-	ctxTimeout, cancel := WithTimeout(10)
+	ctxTimeout, cancel := withTime.WithTimeout(10)
 	defer cancel()
 
 	type poem struct {
@@ -134,8 +135,7 @@ func (r *APIRoutes) DeletePoem(c *fiber.Ctx) error {
 		return SendBasicError(c, err, fiber.StatusUnprocessableEntity)
 	}
 
-	coll := r.DB.Collection(r.Poetry)
-	_, err := coll.Doc(p.ID).Delete(ctxTimeout)
+	_, err := r.DB.ExecContext(ctxTimeout, fmt.Sprintf("delete from %v where id = ?", r.Poetry), p.ID)
 	if err != nil {
 		return SendBasicError(c, err, fiber.StatusBadGateway)
 	}

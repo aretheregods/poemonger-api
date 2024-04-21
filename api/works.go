@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"poemonger/api/db"
+	"poemonger/api/with_time"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -30,7 +31,7 @@ func (r *APIRoutes) AddWorkForm(c *fiber.Ctx) error {
 }
 
 func (r *APIRoutes) PostWork(c *fiber.Ctx) error {
-	ctxTimeout, cancel := WithTimeout(10)
+	ctxTimeout, cancel := withTime.WithTimeout(10)
 	defer cancel()
 
 	w := new(db.Work)
@@ -39,14 +40,17 @@ func (r *APIRoutes) PostWork(c *fiber.Ctx) error {
 		return SendBasicError(c, err, fiber.StatusUnprocessableEntity)
 	}
 
-	coll := r.DB.Collection(r.Works)
-	res, _, err := coll.Add(ctxTimeout, &w)
+	res, err := r.DB.ExecContext(ctxTimeout, fmt.Sprintf("insert or replace into %v ()", r.Works))
 	if err != nil {
 		return SendBasicError(c, err, fiber.StatusBadGateway)
 	}
+	id, err := res.LastInsertId()
+	if err != nil {
+		return SendBasicError(c, err, fiber.StatusNotFound)
+	}
 
 	return c.Status(201).JSON(fiber.Map{
-		"id":   fmt.Sprint(&res.ID),
-		"link": fmt.Sprintf("/%v/%v", r.Works, &res.ID),
+		"id":   fmt.Sprint(id),
+		"link": fmt.Sprintf("/%v/%v", r.Works, id),
 	})
 }

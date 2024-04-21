@@ -9,20 +9,21 @@ type Author struct {
 }
 
 type NewPoem struct {
-	Title        string    `firestore:"title" json:"title"`
-	Author       string    `firestore:"author" json:"author"`
-	Poem         []string  `firestore:"poem" json:"poem"`
-	SampleLength int8      `firestore:"sampleLength" json:"sampleLength"`
-	Categories   []string  `firestore:"categories" json:"categories"`
-	ReleaseDate  time.Time `firestore:"releaseDate" json:"releaseDate"`
+	Title        string    `json:"title"`
+	Author       Author    `json:"author"`
+	Poem         []string  `json:"poem"`
+	SampleLength int8      `json:"sampleLength"`
+	Categories   []string  `json:"categories"`
+	ReleaseDate  time.Time `json:"releaseDate"`
 }
 
 type Poem struct {
 	NewPoem
-	ID string `firestore:"-" json:"id"`
+	ID string `json:"id"`
 }
 
 type Category struct {
+	ID          int `json:"id"`
 	Name        string
 	Description string
 }
@@ -30,22 +31,22 @@ type Category struct {
 type NewWork struct {
 	Name         string
 	Poems        []poemReference
-	CoverPoem    poemReference `firestore:"coverPoem"`
-	NextPoemDate time.Time     `firestore:"nextPoemDate"`
+	CoverPoem    poemReference
+	NextPoemDate time.Time
 }
 
 type Work struct {
 	NewWork
-	ID string `firestore:"-"`
+	ID string
 }
 
 type Reader struct {
-	ID            string `firestore:"-" json:"id"`
+	ID            string `json:"id"`
 	Name          string
-	FavoritePoems []poemReference `firestore:"favoritePoems" json:"favoritePoems"`
-	FavoriteLines []favoriteLine  `firestore:"favoriteLines" json:"favoriteLines"`
+	FavoritePoems []poemReference `json:"favoritePoems"`
+	FavoriteLines []favoriteLine  `json:"favoriteLines"`
 	Lists         []PoemList
-	MostRecent    poemReaderReference `firestore:"mostRecent" json:"mostRecent"`
+	MostRecent    poemReaderReference `json:"mostRecent"`
 }
 
 type PoemList struct {
@@ -61,7 +62,7 @@ type poemReference struct {
 
 type poemReaderReference struct {
 	poemReference
-	ParentWork string `firestore:"parentWork" json:"parentWork"`
+	ParentWork string `json:"parentWork"`
 }
 
 type lineReference struct {
