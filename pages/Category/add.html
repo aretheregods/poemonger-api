@@ -1,32 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <script type="module" src="/categories/js/add.js"></script>
+        <title>{{.Title}}: {{.Subtitle}}</title>
+    </head>
 
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-	<script type="module" src="/categories/js/add.js"></script>
-	<title>{{.Title}}: {{.Subtitle}}</title>
-</head>
-
-<body>
-	<header>
-		<h1>{{.Title}}</h1>
-		<p>{{.Subtitle}}</p>
-	</header>
-	<main>
-		<form id="form" action="">
-			<label for="name">
-				<p>Category</p>
-				<input id="name" name="name" type="text" required />
-			</label>
-			<label for="description">
-				<p>Description</p>
-				<input id="description" name="description" type="text" required />
-			</label>
-			<button id="submit" type="submit">Submit</button>
-		</form>
-	</main>
-</body>
-
+    <body>
+        <header>
+            <h1>{{.Title}}</h1>
+            <p>{{.Subtitle}}</p>
+        </header>
+        <main>
+            <form id="form" action="">
+                <label for="name">
+                    <p>Category</p>
+                    <input id="name" name="name" type="text" required />
+                </label>
+                <label for="description">
+                    <p>Description</p>
+                    <input
+                        id="description"
+                        name="description"
+                        type="text"
+                        required
+                    />
+                </label>
+                <button id="submit" type="submit">Submit</button>
+            </form>
+        </main>
+    </body>
 </html>
+
