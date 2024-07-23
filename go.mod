@@ -6,7 +6,7 @@ toolchain go1.22.1
 
 require (
 	github.com/bytedance/sonic v1.11.3
-	github.com/gofiber/fiber/v2 v2.52.4
+	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/tursodatabase/libsql-client-go v0.0.0-20240401075953-8e79a99d828a
 	google.golang.org/api v0.172.0
 )
